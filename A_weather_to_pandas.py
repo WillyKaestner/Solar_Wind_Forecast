@@ -78,8 +78,8 @@ def get_history(key, city, start, steps, df_columns):
 
 #%%
 if __name__ == "__main__":
-    forecast_wetterdaten = get_forecast(api_key, city_name, 48, col_list)
-    history_wetterdaten = pd.DataFrame()
-    for x in range(0, 5):
-        history_wetterdaten_week = get_history(api_key, city_name, (start_date_history + x * 604800), 168, col_list)
-        history_wetterdaten = pd.concat([history_wetterdaten, history_wetterdaten_week], axis=0, ignore_index=True)
+    forecast_wetterdaten = get_forecast(api_key, "Freiburg,DE", 48, col_list)
+    # history_wetterdaten = pd.DataFrame()
+    # for x in range(0, 5):
+    #     history_wetterdaten_week = get_history(api_key, city_name, (start_date_history + x * 604800), 168, col_list)
+    #     history_wetterdaten = pd.concat([history_wetterdaten, history_wetterdaten_week], axis=0, ignore_index=True)
