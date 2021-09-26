@@ -1,0 +1,44 @@
+{
+  "coord": {
+    "lon": -122.3321,
+    "lat": 47.6062
+  },
+  "weather": [
+    {
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 290.4,
+    "feels_like": 290.22,
+    "temp_min": 287.55,
+    "temp_max": 293.46,
+    "pressure": 1019,
+    "humidity": 78
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 0.45,
+    "deg": 349,
+    "gust": 2.68
+  },
+  "clouds": {
+    "all": 1
+  },
+  "dt": 1632507236,
+  "sys": {
+    "type": 2,
+    "id": 2004026,
+    "country": "US",
+    "sunrise": 1632491954,
+    "sunset": 1632535391
+  },
+  "timezone": -25200,
+  "id": 5809844,
+  "name": "Seattle",
+  "cod": 200
+}

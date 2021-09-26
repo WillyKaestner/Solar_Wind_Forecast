@@ -1,0 +1,92 @@
+{
+  "cod": "200",
+  "message": 0,
+  "cnt": 2,
+  "list": [
+    {
+      "dt": 1632510000,
+      "main": {
+        "temp": 291.36,
+        "feels_like": 291.09,
+        "temp_min": 291.36,
+        "temp_max": 294.01,
+        "pressure": 1019,
+        "sea_level": 1019,
+        "grnd_level": 1014,
+        "humidity": 71,
+        "temp_kf": -2.65
+      },
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "clear sky",
+          "icon": "01d"
+        }
+      ],
+      "clouds": {
+        "all": 6
+      },
+      "wind": {
+        "speed": 2.88,
+        "deg": 2,
+        "gust": 4.01
+      },
+      "visibility": 10000,
+      "pop": 0,
+      "sys": {
+        "pod": "d"
+      },
+      "dt_txt": "2021-09-24 19:00:00"
+    },
+    {
+      "dt": 1632513600,
+      "main": {
+        "temp": 292.66,
+        "feels_like": 292.31,
+        "temp_min": 292.66,
+        "temp_max": 295.61,
+        "pressure": 1018,
+        "sea_level": 1018,
+        "grnd_level": 1013,
+        "humidity": 63,
+        "temp_kf": -2.95
+      },
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "clear sky",
+          "icon": "01d"
+        }
+      ],
+      "clouds": {
+        "all": 7
+      },
+      "wind": {
+        "speed": 2.61,
+        "deg": 355,
+        "gust": 3.37
+      },
+      "visibility": 10000,
+      "pop": 0,
+      "sys": {
+        "pod": "d"
+      },
+      "dt_txt": "2021-09-24 20:00:00"
+    }
+  ],
+  "city": {
+    "id": 5809844,
+    "name": "Seattle",
+    "coord": {
+      "lat": 47.6062,
+      "lon": -122.3321
+    },
+    "country": "US",
+    "population": 608660,
+    "timezone": -25200,
+    "sunrise": 1632491954,
+    "sunset": 1632535391
+  }
+}
