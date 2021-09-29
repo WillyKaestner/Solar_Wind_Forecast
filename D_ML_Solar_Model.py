@@ -9,7 +9,6 @@ from sklearn.metrics import mean_absolute_error
 from joblib import dump
 
 #%%
-
 """
 01 LOAD & SELECT DATA
 """
@@ -47,7 +46,6 @@ categorical_cols = [cname for cname in X_train.columns if
 numerical_cols = [cname for cname in X_train.columns if
                   X_train[cname].dtype in ['int64', 'float64']]
 
-#%%
 """
 03 PIPELINE (IMPUTATION AND MODEL)
 """
@@ -67,9 +65,38 @@ preprocessor = ColumnTransformer(
         ('num', numerical_transformer, numerical_cols),
         ('cat', categorical_transformer, categorical_cols)
     ])
+#%%
+"""
+04 CALC BEST N_ESTIMATORS
+"""
+def get_mae(n_estimators, train_X, val_X, train_y, val_y):
+    model = RandomForestRegressor(n_estimators=n_estimators, random_state=0)
+    clf = Pipeline(steps=[('preprocessor', preprocessor),
+                          ('model', model)])
+    clf.fit(train_X, train_y)
+    preds_val = clf.predict(val_X)
+    mae = mean_absolute_error(val_y, preds_val)
+    return mae
 
+
+candidate_max_leaf_nodes = [25, 50, 100, 150, 200, 250, 500]
+# Write loop to find the ideal tree size from candidate_max_leaf_nodes
+mae_collection = []
+
+for max_leaf_nodes in candidate_max_leaf_nodes:
+    mae = get_mae(max_leaf_nodes, X_train, X_valid, y_train, y_valid)
+    mae_collection.append([max_leaf_nodes, mae])
+
+mae_df = pd.DataFrame(mae_collection, columns=["max_leaf_nodes", "mae"])
+
+# Store the best value of n_estimators
+best_n_estimators = mae_df.loc[mae_df["mae"].idxmin(), "max_leaf_nodes"]
+
+"""
+05 FINAL MODEL
+"""
 # Define model
-model = RandomForestRegressor(n_estimators=100, random_state=0)
+model = RandomForestRegressor(n_estimators=150, random_state=0)
 
 # Bundle preprocessing and modeling code in a pipeline
 clf = Pipeline(steps=[('preprocessor', preprocessor),
@@ -81,15 +108,18 @@ clf.fit(X_train, y_train)
 # Preprocessing of validation data, get predictions
 preds = clf.predict(X_valid)
 
+"""
+06 RESULTS AND EXPORT
+"""
+
 print('MAE:', mean_absolute_error(y_valid, preds))
 
-#%% Gegenüberstellung der Vorhersage und der Ausgangsdaten
+# Gegenüberstellung der Vorhersage und der Ausgangsdaten
 Solar_Vergleich = pd.DataFrame()
 Solar_Vergleich["Base_PV[MWh]"] = y_valid.reset_index(drop=True)
 Solar_Vergleich["Predict_PV[MWh]"] = preds
+Solar_Vergleich["Diff"] = Solar_Vergleich["Base_PV[MWh]"] - Solar_Vergleich["Predict_PV[MWh]"]
 
-#%% Export model
+# Export model
 dump(clf, 'data/solar_model.joblib')
 
-#%% Export X_valid
-pd.to_pickle(X_valid, "data/X_valid_solar.pkl")
