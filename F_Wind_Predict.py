@@ -55,9 +55,9 @@ wind_results["Wind_forecast[MWh]"] = wind_forecast
 
 #%% Grafik der Windvorhersage erstellen
 sns.set_theme()
-fig1, ax1 = plt.subplots(figsize=(12, 4))
+fig, ax = plt.subplots(figsize=(12, 4))
 sns.barplot(data=wind_results, x="time (h)", y="Wind_forecast[MWh]")
-plt.setp(ax1.get_xticklabels(), rotation=45)
+plt.setp(ax.get_xticklabels(), rotation=45)
 plt.tight_layout()
 plt.show()
 

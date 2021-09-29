@@ -56,9 +56,9 @@ solar_results["PV_forecast[MWh]"] = solar_forecast
 
 #%% Grafik der Solarvorhersage erstellen
 sns.set_theme()
-fig1, ax1 = plt.subplots(figsize=(12, 4))
+fig, ax = plt.subplots(figsize=(12, 4))
 sns.barplot(data=solar_results, x="time (h)", y="PV_forecast[MWh]")
-plt.setp(ax1.get_xticklabels(), rotation=45)
+plt.setp(ax.get_xticklabels(), rotation=45)
 plt.tight_layout()
 plt.show()
 
