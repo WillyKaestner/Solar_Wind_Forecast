@@ -1,7 +1,7 @@
 #%%
 import pandas as pd
 from joblib import load
-from A_weather_to_pandas import get_forecast
+from ML_Model_Data.A_Weather_Data_Call import get_forecast
 import matplotlib.pyplot as plt
 import seaborn as sns
 #%%
@@ -60,4 +60,8 @@ sns.barplot(data=wind_results, x="time (h)", y="Wind_forecast[MWh]")
 plt.setp(ax.get_xticklabels(), rotation=45)
 plt.tight_layout()
 plt.show()
+
+#%%
+# plt.savefig('img/Windvorhersage.pdf')
+
 

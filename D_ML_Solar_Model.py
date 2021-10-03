@@ -69,28 +69,28 @@ preprocessor = ColumnTransformer(
 """
 04 CALC BEST N_ESTIMATORS
 """
-def get_mae(n_estimators, train_X, val_X, train_y, val_y):
-    model = RandomForestRegressor(n_estimators=n_estimators, random_state=0)
-    clf = Pipeline(steps=[('preprocessor', preprocessor),
-                          ('model', model)])
-    clf.fit(train_X, train_y)
-    preds_val = clf.predict(val_X)
-    mae = mean_absolute_error(val_y, preds_val)
-    return mae
-
-
-candidate_max_leaf_nodes = [25, 50, 100, 150, 200, 250, 500]
-# Write loop to find the ideal tree size from candidate_max_leaf_nodes
-mae_collection = []
-
-for max_leaf_nodes in candidate_max_leaf_nodes:
-    mae = get_mae(max_leaf_nodes, X_train, X_valid, y_train, y_valid)
-    mae_collection.append([max_leaf_nodes, mae])
-
-mae_df = pd.DataFrame(mae_collection, columns=["max_leaf_nodes", "mae"])
-
-# Store the best value of n_estimators
-best_n_estimators = mae_df.loc[mae_df["mae"].idxmin(), "max_leaf_nodes"]
+# def get_mae(n_estimators, train_X, val_X, train_y, val_y):
+#     model = RandomForestRegressor(n_estimators=n_estimators, random_state=0)
+#     clf = Pipeline(steps=[('preprocessor', preprocessor),
+#                           ('model', model)])
+#     clf.fit(train_X, train_y)
+#     preds_val = clf.predict(val_X)
+#     mae = mean_absolute_error(val_y, preds_val)
+#     return mae
+#
+#
+# candidate_max_leaf_nodes = [25, 50, 100, 150, 200, 250, 500]
+# # Write loop to find the ideal tree size from candidate_max_leaf_nodes
+# mae_collection = []
+#
+# for max_leaf_nodes in candidate_max_leaf_nodes:
+#     mae = get_mae(max_leaf_nodes, X_train, X_valid, y_train, y_valid)
+#     mae_collection.append([max_leaf_nodes, mae])
+#
+# mae_df = pd.DataFrame(mae_collection, columns=["max_leaf_nodes", "mae"])
+#
+# # Store the best value of n_estimators
+# best_n_estimators = mae_df.loc[mae_df["mae"].idxmin(), "max_leaf_nodes"]
 
 """
 05 FINAL MODEL

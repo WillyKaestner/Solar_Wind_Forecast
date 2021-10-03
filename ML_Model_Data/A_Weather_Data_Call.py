@@ -1,22 +1,23 @@
 #%%
+"""
+Helper functions to fetch weather data from Openweathermap. Historical and forecast weather can be accessed via api.
+"""
 import requests
 import pandas as pd
+from ML_Model_Data.constants import API_KEY, FREIBURG, STUTTGART, COL_LIST, START_DATE_WEATHER_HISTORY
 
 #%%
-city_name = "Stuttgart,DE"
-api_key = "7660e06da8e929a654c00a31197de127"
-start_date_history = 1601510400  # Friday, 1. October 2020 00:00:00 UTC
-
-# Spaltenliste welche die jeweiligen Spalten in den History und Forecast Dataframes letztendlich darstellt
-col_list = ["date_utc",
-            "city.id",
-            'main.temp', 'main.feels_like', 'main.pressure', 'main.humidity',
-            'wind.speed', 'wind.deg',
-            'clouds.all',
-            'weather.main',
-            'weather.description']
-
 def get_forecast(key, city, steps, df_columns):
+    """
+    Get the forecast Data from Openweather beginning with the current hour.
+
+    :param key: Personal Api Key
+    :param city: Weather location
+    :param steps: amount of forecasted time steps in hours
+    :param df_columns: List of columns for the final dataframe which is returned. See online documentation of openweathermap for overall
+    list of forecast weather variables
+    :return: Pandas Dataframe of the weather forecast values
+    """
     # Vorhersage der Wetterdaten per API beziehen. Stündliche Werte.
     url = f"http://pro.openweathermap.org/data/2.5/forecast/hourly?q={city}&appid={key}&cnt={steps}"
     weather_data = requests.get(url).json()
@@ -47,6 +48,17 @@ def get_forecast(key, city, steps, df_columns):
 
 
 def get_history(key, city, start, steps, df_columns):
+    """
+    Get the history Data from Openweather with a specific start time in the past and a certains amout of time steps.
+
+    :param key: Personal Api Key
+    :param city: Weather location
+    :param start: Start time of history values in Unix Time
+    :param steps: amount of history time steps in hours
+    :param df_columns: List of columns for the final dataframe which is returned. See online documentation of openweathermap for overall
+    list of history weather variables
+    :return: Pandas Dataframe of the weather history values
+    """
     # Vorhersage der Wetterdaten per API beziehen. Stündliche Werte.
     url = f"http://history.openweathermap.org/data/2.5/history/city?q={city}&type=hour&start={start}&cnt={steps}&appid={key}"
     weather_data = requests.get(url).json()
@@ -78,8 +90,5 @@ def get_history(key, city, start, steps, df_columns):
 
 #%%
 if __name__ == "__main__":
-    forecast_wetterdaten = get_forecast(api_key, "Freiburg,DE", 48, col_list)
-    # history_wetterdaten = pd.DataFrame()
-    # for x in range(0, 5):
-    #     history_wetterdaten_week = get_history(api_key, city_name, (start_date_history + x * 604800), 168, col_list)
-    #     history_wetterdaten = pd.concat([history_wetterdaten, history_wetterdaten_week], axis=0, ignore_index=True)
+    forecast_wetterdaten = get_forecast(API_KEY, FREIBURG, 48, COL_LIST)
+
