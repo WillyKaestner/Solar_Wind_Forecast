@@ -42,10 +42,10 @@ def make_history_weather_df():
         history_wetterdaten_Ravensburg = pd.concat([history_wetterdaten_Ravensburg, history_wetterdaten_week_Ravensburg], axis=0, ignore_index=True)
 
     # Dataframes als Pickle abspeichern
-    pd.to_pickle(history_wetterdaten_Stuttgart, "../data/history_weather_stuttgart_28Sep2020_19Sep_2020_test.pkl")
-    pd.to_pickle(history_wetterdaten_Freiburg, "../data/history_weather_freiburg_28Sep2020_19Sep_2020_test.pkl")
-    pd.to_pickle(history_wetterdaten_Mannheim, "../data/history_weather_mannheim_28Sep2020_19Sep_2020_test.pkl")
-    pd.to_pickle(history_wetterdaten_Ravensburg, "../data/history_weather_ravensburg_28Sep2020_19Sep_2020_test.pkl")
+    pd.to_pickle(history_wetterdaten_Stuttgart, "../data/history_weather_stuttgart_28Sep2020_19Sep_2020.pkl")
+    pd.to_pickle(history_wetterdaten_Freiburg, "../data/history_weather_freiburg_28Sep2020_19Sep_2020.pkl")
+    pd.to_pickle(history_wetterdaten_Mannheim, "../data/history_weather_mannheim_28Sep2020_19Sep_2020.pkl")
+    pd.to_pickle(history_wetterdaten_Ravensburg, "../data/history_weather_ravensburg_28Sep2020_19Sep_2020.pkl")
 
 if __name__ == "__main__":
     make_history_weather_df()

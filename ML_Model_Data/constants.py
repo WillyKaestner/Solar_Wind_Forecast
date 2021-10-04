@@ -17,4 +17,3 @@ FREIBURG = "Freiburg,DE"
 MANNHEIM = "Mannheim,DE"
 RAVENSBURG = "Ravensburg,DE"
 
-
