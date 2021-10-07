@@ -17,3 +17,10 @@
 /data/01_Base_Data/history_weather_ravensburg_28Sep2020_19Sep_2020.pkl
 /data/01_Base_Data/history_weather_stuttgart_28Sep2020_19Sep_2020.pkl
 /data/01_Base_Data/Realisierte_Erzeugung_202009270000_202109202359.csv
+/data/solar_model.joblib
+/data/train_solar.pkl
+/data/train_wind.pkl
+/data/wind_model.joblib
+/data/02_Forecast_Validation_Data/Prognostizierte_Erzeugung_202109290000_202109302359.csv
+/data/02_Forecast_Validation_Data/Realisierte_Erzeugung_202109290000_202109302359.csv
+/data/02_Forecast_Validation_Data/Realisierte_Erzeugung_202110050000_202110052359.csv
