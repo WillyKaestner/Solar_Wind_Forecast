@@ -6,7 +6,7 @@ import pandas as pd
 
 #%%
 def generate_history_energy_df():
-    erzeugung_bw = pd.read_csv("../data/Realisierte_Erzeugung_202009270000_202109202359.csv", sep=";")
+    erzeugung_bw = pd.read_csv("../data/01_Base_Data/Realisierte_Erzeugung_202009270000_202109202359.csv", sep=";")
 
     # Aus den Datum und Uhrzeit Spalten die Strings nehmen und Datetime Index erstellen
     erzeugung_bw["Datum_UTC+1"] = erzeugung_bw[["Datum", "Uhrzeit"]].agg(" ".join, axis=1)

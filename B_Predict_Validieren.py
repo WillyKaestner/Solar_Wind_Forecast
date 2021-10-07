@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 #%% Prognose Daten von Smard einlesen aus CSV Datei
-erzeugung_bw = pd.read_csv("data/Realisierte_Erzeugung_202109290000_202109302359.csv", sep=";")
+erzeugung_bw = pd.read_csv("data/01_Forecast_Validation_Data/Realisierte_Erzeugung_202110050000_202110052359.csv", sep=";")
 
 # Aus den Datum und Uhrzeit Spalten die Strings nehmen und Datetime Index erstellen
 erzeugung_bw["Datum_UTC+1"] = erzeugung_bw[["Datum", "Uhrzeit"]].agg(" ".join, axis=1)
