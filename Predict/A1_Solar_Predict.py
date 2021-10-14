@@ -1,6 +1,5 @@
 #%%
-from ML_Model_Data.constants import API_KEY
-from ML_Model_Data.Weather_Data_Call import get_weather_forecast
+from ML_Model_Data.Weather_Data_Call import ForecastWeather
 from Predict.constants import TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT, CITY_LIST, CITIES_PREFIX
 
 import pandas as pd
@@ -20,7 +19,8 @@ def solar_predict():
     weather_forecast = pd.DataFrame()
 
     # Datumsbereich bekommen, in Monat und Stunde aufteilen und als erste beiden Spalten definieren
-    date_range_df = get_weather_forecast(CITY_LIST[0], TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT + ["date_utc"])
+    # date_range_df = get_weather_forecast(CITY_LIST[0], TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT + ["date_utc"])
+    date_range_df = ForecastWeather(CITY_LIST[0], COL_LIST_WEATHER_PREDICT + ["date_utc"], TIME_STEPS_PREDICT).get_weather_forecast()
     date_range_df.set_index("date_utc", inplace=True)
     date_range_df_UTC_plus_1 = date_range_df.shift(periods=+1, freq='H')
     date_range_df_UTC_plus_1.reset_index(inplace=True)
@@ -35,7 +35,8 @@ def solar_predict():
 
     # Wetter Dataframe mit Werten aus allen Städen für das ML Model zusammenführen
     for city in CITY_LIST:
-        weather_forecast_temp = get_weather_forecast(city, TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT)
+        # weather_forecast_temp = get_weather_forecast(city, TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT)
+        weather_forecast_temp = ForecastWeather(city, COL_LIST_WEATHER_PREDICT, TIME_STEPS_PREDICT).get_weather_forecast()
         weather_forecast_temp.columns = [CITIES_PREFIX[city] + str(col) for col in weather_forecast_temp.columns]
         weather_forecast = pd.concat([weather_forecast, weather_forecast_temp], axis=1)
 
