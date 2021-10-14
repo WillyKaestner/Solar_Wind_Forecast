@@ -5,14 +5,15 @@ import requests
 import pandas as pd
 
 class WeatherData:
+    """
+    Overall weather data
 
+    :param city: Weather location
+    :param df_columns: List of columns for the final dataframe which is returned.
+    """
     from ML_Model_Data.constants import API_KEY
 
     def __init__(self, city: str, df_columns: list):
-        """
-        :param city: Weather location
-        :param df_columns: List of columns for the final dataframe which is returned.
-        """
         self.city = city
         self.df_columns = df_columns
 
@@ -46,23 +47,23 @@ class WeatherData:
         df["date_utc"] = pd.to_datetime(df["dt"], unit="s", origin='unix')
 
 class HistoryWeather(WeatherData):
+    """
+    Create HistoryWeather from BaseClass WeatherData
+
+    :param city: Weather location
+    :param df_columns: List of columns for the final dataframe which is returned.
+    :param start: Start time of history values in Unix Time
+    :param steps: amount of history time steps in hours
+    """
 
     def __init__(self, city: str, df_columns: list, start: int, steps: int):
-        """
-        Create HistoryWeather from BaseClass WeatherData
-
-        :param city: Weather location
-        :param df_columns: List of columns for the final dataframe which is returned.
-        :param start: Start time of history values in Unix Time
-        :param steps: amount of history time steps in hours
-        """
         super().__init__(city, df_columns)
         self.start = start
         self.steps = steps
 
     def api_call_weather_history(self) -> pd.DataFrame:
         """Historische Wetterdaten per API beziehen. Stündliche Werte."""
-        url = f"http://history.openweathermap.org/data/2.5/history/city?q={self.city}&type=hour&start={self.start}&cnt={self.steps}&appid={self.API_KEY}"
+        url = f"https://history.openweathermap.org/data/2.5/history/city?q={self.city}&type=hour&start={self.start}&cnt={self.steps}&appid={self.API_KEY}"
         weather_data = requests.get(url).json()
         # JSON Datei ausfächern und als Dataframe speichern
         df = pd.json_normalize(data=weather_data,
@@ -82,21 +83,21 @@ class HistoryWeather(WeatherData):
 
 
 class ForecastWeather(WeatherData):
+    """
+    Create ForecastWeather from BaseClass WeatherData
+
+    :param city: Weather location
+    :param df_columns: List of columns for the final dataframe which is returned.
+    :param steps: amount of history time steps in hours
+    """
 
     def __init__(self, city: str, df_columns: list, steps: int):
-        """
-        Create ForecastWeather from BaseClass WeatherData
-
-        :param city: Weather location
-        :param df_columns: List of columns for the final dataframe which is returned.
-        :param steps: amount of history time steps in hours
-        """
         super().__init__(city, df_columns)
         self.steps = steps
 
     def api_call_weather_forecast(self) -> pd.DataFrame:
         """Vorhersage der Wetterdaten per API beziehen. Stündliche Werte."""
-        url = f"http://pro.openweathermap.org/data/2.5/forecast/hourly?q={self.city}&appid={self.API_KEY}&cnt={self.steps}"
+        url = f"https://pro.openweathermap.org/data/2.5/forecast/hourly?q={self.city}&appid={self.API_KEY}&cnt={self.steps}"
         weather_data = requests.get(url).json()
         # JSON Datei ausfächern und als Dataframe speichern
         df = pd.json_normalize(data=weather_data,
