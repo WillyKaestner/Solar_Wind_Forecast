@@ -38,7 +38,7 @@ def main():
     history_wetterdaten_Mannheim.columns = ['MAN_' + str(col) for col in history_wetterdaten_Mannheim.columns]
     history_wetterdaten_Ravensburg.columns = ['RAV_' + str(col) for col in history_wetterdaten_Ravensburg.columns]
 
-    # Wetterdaten gesamthaft den bein train Datensätzen hinzufügen
+    # Wetterdaten gesamthaft den beiden train Datensätzen hinzufügen
     train_solar = pd.concat([train_solar,
                              history_wetterdaten_Stuttgart.iloc[:, 2:],
                              history_wetterdaten_Freiburg.iloc[:, 2:],

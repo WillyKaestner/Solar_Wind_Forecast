@@ -27,19 +27,19 @@ def make_history_weather_df(weeks: int, start_date: int):
     # Schleife bezieht die historischen Wettervorhersagen in Wochenabschnitten für die jeweiligen Städte und erstellt ein gesamthaftes DF
     for x in range(0, weeks):
         # Stuttgart Wetter
-        history_wetterdaten_week_Stuttgart = HistoryWeather(STUTTGART, COL_LIST, (start_date + x * 604800), 168).get_weather_history()
+        history_wetterdaten_week_Stuttgart = HistoryWeather(STUTTGART, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
         history_wetterdaten_Stuttgart = pd.concat([history_wetterdaten_Stuttgart, history_wetterdaten_week_Stuttgart], axis=0, ignore_index=True)
 
         # Freiburg Wetter
-        history_wetterdaten_week_Freiburg = HistoryWeather(FREIBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_history()
+        history_wetterdaten_week_Freiburg = HistoryWeather(FREIBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
         history_wetterdaten_Freiburg = pd.concat([history_wetterdaten_Freiburg, history_wetterdaten_week_Freiburg], axis=0, ignore_index=True)
 
         # Mannheim Wetter
-        history_wetterdaten_week_Mannheim = HistoryWeather(MANNHEIM, COL_LIST, (start_date + x * 604800), 168).get_weather_history()
+        history_wetterdaten_week_Mannheim = HistoryWeather(MANNHEIM, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
         history_wetterdaten_Mannheim = pd.concat([history_wetterdaten_Mannheim, history_wetterdaten_week_Mannheim], axis=0, ignore_index=True)
 
         # Ravensburg Wetter
-        history_wetterdaten_week_Ravensburg = HistoryWeather(RAVENSBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_history()
+        history_wetterdaten_week_Ravensburg = HistoryWeather(RAVENSBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
         history_wetterdaten_Ravensburg = pd.concat([history_wetterdaten_Ravensburg, history_wetterdaten_week_Ravensburg], axis=0, ignore_index=True)
 
     # Dataframes als Pickle abspeichern

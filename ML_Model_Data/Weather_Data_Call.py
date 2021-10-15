@@ -3,19 +3,14 @@ Hilfsskript um die restlichen Skripte in ML_Model_Data sauber zu halten
 """
 import requests
 import pandas as pd
+from dataclasses import dataclass
 
+@dataclass
 class WeatherData:
-    """
-    Overall weather data
-
-    :param city: Weather location
-    :param df_columns: List of columns for the final dataframe which is returned.
-    """
+    """Overall weather data"""
     from ML_Model_Data.constants import API_KEY
-
-    def __init__(self, city: str, df_columns: list):
-        self.city = city
-        self.df_columns = df_columns
+    city: str           # Weather location
+    df_columns: list    # List of columns for the final dataframe which is returned.
 
     def prepare_dataframe_for_ML_model_use(self, df: pd.DataFrame) -> pd.DataFrame:
         """Explode hidden data in the dataframe, convert to UTC time and select given columns"""
@@ -46,20 +41,11 @@ class WeatherData:
         """Convert column with Unix Date to Datetime(UTC)"""
         df["date_utc"] = pd.to_datetime(df["dt"], unit="s", origin='unix')
 
+@dataclass
 class HistoryWeather(WeatherData):
-    """
-    Create HistoryWeather from BaseClass WeatherData
-
-    :param city: Weather location
-    :param df_columns: List of columns for the final dataframe which is returned.
-    :param start: Start time of history values in Unix Time
-    :param steps: amount of history time steps in hours
-    """
-
-    def __init__(self, city: str, df_columns: list, start: int, steps: int):
-        super().__init__(city, df_columns)
-        self.start = start
-        self.steps = steps
+    """Create HistoryWeather from BaseClass WeatherData"""
+    start: int          # Start time of history values in Unix Time
+    steps: int = 168    # amount of history time steps in hours
 
     def api_call_weather_history(self) -> pd.DataFrame:
         """Historische Wetterdaten per API beziehen. Stündliche Werte."""
@@ -73,27 +59,21 @@ class HistoryWeather(WeatherData):
         df.rename(columns={"city_id": "city.id"}, inplace=True)
         return df
 
-    def get_weather_history(self) -> pd.DataFrame:
+    def get_weather_history_from_api(self) -> pd.DataFrame:
         """ Get the history Data from Openweather with a specific start time in the past and a certain amount of time steps."""
         # Laden der historischen Wetterdaten
         df = self.api_call_weather_history()
         # Wetterbezeichnung ausfächern, Datum in UTC umwandeln & Spaltenabgleich zwischen Wettervorhersage und historischen Wetterdaten gewährleisten
-        df = self.prepare_dataframe_for_ML_model_use(df)
+        df = super().prepare_dataframe_for_ML_model_use(df)
         return df
 
+    def get_weather_history_from_file(self) -> pd.DataFrame:
+        pass
 
+@dataclass
 class ForecastWeather(WeatherData):
-    """
-    Create ForecastWeather from BaseClass WeatherData
-
-    :param city: Weather location
-    :param df_columns: List of columns for the final dataframe which is returned.
-    :param steps: amount of history time steps in hours
-    """
-
-    def __init__(self, city: str, df_columns: list, steps: int):
-        super().__init__(city, df_columns)
-        self.steps = steps
+    """Create ForecastWeather from BaseClass WeatherData"""
+    steps: int = 48     # amount of forecast time steps in hours
 
     def api_call_weather_forecast(self) -> pd.DataFrame:
         """Vorhersage der Wetterdaten per API beziehen. Stündliche Werte."""
@@ -105,13 +85,16 @@ class ForecastWeather(WeatherData):
                                meta=[["city", "name"], ["city", "id"]])
         return df
 
-    def get_weather_forecast(self) -> pd.DataFrame:
+    def get_weather_forecast_from_api(self) -> pd.DataFrame:
         """Vorhersage der Wetterdaten ab der aktuellen Stunde per API beziehen. Stündliche Werte."""
         # Laden der Wettervorhersage
         df = self.api_call_weather_forecast()
         # Wetterbezeichnung ausfächern, Datum in UTC umwandeln & Spaltenabgleich zwischen Wettervorhersage und historischen Wetterdaten gewährleisten
-        df = self.prepare_dataframe_for_ML_model_use(df)
+        df = super().prepare_dataframe_for_ML_model_use(df)
         return df
+
+    def get_weather_forecast_from_file(self) -> pd.DataFrame:
+        pass
 
 
 # %%
@@ -123,14 +106,14 @@ def main():
     from ML_Model_Data.constants import START_DATE_WEATHER_HISTORY_TEST
 
     weather_forecast_data_stuttgart = ForecastWeather(CITY_LIST[0], COL_LIST_WEATHER_PREDICT + ["date_utc"],
-                                                      TIME_STEPS_PREDICT).get_weather_forecast()
+                                                      TIME_STEPS_PREDICT).get_weather_forecast_from_api()
     weather_forecast_data_freiburg = ForecastWeather(CITY_LIST[1], COL_LIST_WEATHER_PREDICT + ["date_utc"],
-                                                     TIME_STEPS_PREDICT).get_weather_forecast()
+                                                     TIME_STEPS_PREDICT).get_weather_forecast_from_api()
 
     weather_history_data_stuttgart = HistoryWeather(city=CITY_LIST[0],
                                                     df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],
                                                     start=START_DATE_WEATHER_HISTORY_TEST,
-                                                    steps=10).get_weather_history()
+                                                    steps=10).get_weather_history_from_api()
     return weather_forecast_data_stuttgart, weather_forecast_data_freiburg, weather_history_data_stuttgart
 
 
