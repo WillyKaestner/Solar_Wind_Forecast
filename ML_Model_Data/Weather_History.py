@@ -2,7 +2,8 @@
 Get history weather data from openweathermap for the specific cities and chosen weather variables and save the resulting
 dataframes as pickles.
 """
-
+# Todo: Wetter und Erzeugungsdaten verarbeitung welche hier in Weather_History und in Generation_History stattfinden sind eigentlich eher Teil des
+#  ML_Model package -> Skripte verschieben (in data_gathering umbenennen) und dieses package zu Weather_And_Generation umbenennen
 from ML_Model_Data.Weather_Data_Call import HistoryWeather
 from ML_Model_Data.constants import (
     COL_LIST,
@@ -27,19 +28,19 @@ def make_history_weather_df(weeks: int, start_date: int):
     # Schleife bezieht die historischen Wettervorhersagen in Wochenabschnitten für die jeweiligen Städte und erstellt ein gesamthaftes DF
     for x in range(0, weeks):
         # Stuttgart Wetter
-        history_wetterdaten_week_Stuttgart = HistoryWeather(STUTTGART, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
+        history_wetterdaten_week_Stuttgart = HistoryWeather(STUTTGART, COL_LIST, (start_date + x * 604800), 168).get_weather_data_for_ML_model()
         history_wetterdaten_Stuttgart = pd.concat([history_wetterdaten_Stuttgart, history_wetterdaten_week_Stuttgart], axis=0, ignore_index=True)
 
         # Freiburg Wetter
-        history_wetterdaten_week_Freiburg = HistoryWeather(FREIBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
+        history_wetterdaten_week_Freiburg = HistoryWeather(FREIBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_data_for_ML_model()
         history_wetterdaten_Freiburg = pd.concat([history_wetterdaten_Freiburg, history_wetterdaten_week_Freiburg], axis=0, ignore_index=True)
 
         # Mannheim Wetter
-        history_wetterdaten_week_Mannheim = HistoryWeather(MANNHEIM, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
+        history_wetterdaten_week_Mannheim = HistoryWeather(MANNHEIM, COL_LIST, (start_date + x * 604800), 168).get_weather_data_for_ML_model()
         history_wetterdaten_Mannheim = pd.concat([history_wetterdaten_Mannheim, history_wetterdaten_week_Mannheim], axis=0, ignore_index=True)
 
         # Ravensburg Wetter
-        history_wetterdaten_week_Ravensburg = HistoryWeather(RAVENSBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_history_from_api()
+        history_wetterdaten_week_Ravensburg = HistoryWeather(RAVENSBURG, COL_LIST, (start_date + x * 604800), 168).get_weather_data_for_ML_model()
         history_wetterdaten_Ravensburg = pd.concat([history_wetterdaten_Ravensburg, history_wetterdaten_week_Ravensburg], axis=0, ignore_index=True)
 
     # Dataframes als Pickle abspeichern
