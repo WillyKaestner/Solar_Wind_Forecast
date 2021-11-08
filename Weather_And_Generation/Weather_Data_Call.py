@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 @dataclass
 class WeatherData(ABC):
     """Overall weather data"""
-    from ML_Model_Data.constants import API_KEY
+    from Weather_And_Generation.constants import API_KEY_OPENWEATHERMAP
     city: str           # Weather location
     df_columns: list    # List of columns for the final dataframe which is returned.
 
@@ -60,7 +60,7 @@ class HistoryWeather(WeatherData):
 
     def api_call_weather_data(self) -> pd.DataFrame:
         """Historische Wetterdaten per API beziehen. Stündliche Werte."""
-        url = f"https://history.openweathermap.org/data/2.5/history/city?q={self.city}&type=hour&start={self.start}&cnt={self.timesteps}&appid={self.API_KEY}"
+        url = f"https://history.openweathermap.org/data/2.5/history/city?q={self.city}&type=hour&start={self.start}&cnt={self.timesteps}&appid={self.API_KEY_OPENWEATHERMAP}"
         weather_data = requests.get(url).json()
         # JSON Datei ausfächern und als Dataframe speichern
         df = pd.json_normalize(data=weather_data,
@@ -80,7 +80,7 @@ class ForecastWeather(WeatherData):
 
     def api_call_weather_data(self) -> pd.DataFrame:
         """Vorhersage der Wetterdaten per API beziehen. Stündliche Werte."""
-        url = f"https://pro.openweathermap.org/data/2.5/forecast/hourly?q={self.city}&appid={self.API_KEY}&cnt={self.timesteps}"
+        url = f"https://pro.openweathermap.org/data/2.5/forecast/hourly?q={self.city}&appid={self.API_KEY_OPENWEATHERMAP}&cnt={self.timesteps}"
         weather_data = requests.get(url).json()
         # JSON Datei ausfächern und als Dataframe speichern
         df = pd.json_normalize(data=weather_data,
@@ -98,7 +98,7 @@ from Decorators.decorators import my_timer
 @my_timer
 def main():
     from Predict.constants import TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT, CITY_LIST
-    from ML_Model_Data.constants import START_DATE_WEATHER_HISTORY_TEST
+    from Weather_And_Generation.constants import START_DATE_WEATHER_HISTORY_TEST
 
     weather_forecast_data_stuttgart = ForecastWeather(city=CITY_LIST[0],
                                                       df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],

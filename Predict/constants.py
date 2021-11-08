@@ -1,4 +1,4 @@
-from ML_Model_Data.constants import STUTTGART, FREIBURG, MANNHEIM, RAVENSBURG
+from Weather_And_Generation.constants import STUTTGART, FREIBURG, MANNHEIM, RAVENSBURG
 
 TIME_STEPS_PREDICT = 48
 

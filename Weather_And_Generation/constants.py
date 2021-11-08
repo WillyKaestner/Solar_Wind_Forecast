@@ -1,5 +1,5 @@
 # Allgemein
-API_KEY = "7660e06da8e929a654c00a31197de127"
+API_KEY_OPENWEATHERMAP = "7660e06da8e929a654c00a31197de127"
 
 # Spaltenliste welche die jeweiligen Spalten in den History und Forecast Dataframes letztendlich darstellt
 COL_LIST = ["date_utc",

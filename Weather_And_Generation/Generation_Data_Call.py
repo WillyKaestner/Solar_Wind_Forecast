@@ -6,6 +6,7 @@ import pandas as pd
 from dataclasses import dataclass
 from selenium import webdriver
 import time
+from pathlib import Path
 
 @dataclass
 class SmardGenerationData:
@@ -17,7 +18,7 @@ class SmardGenerationData:
     def load_generation_data_from_smard_and_save_as_csv(self):
         # ToDO: Nicht vergessen, dass die Erzeugungsdaten auf smard in UTC+1 zu finden sind -> deshalb zu start_date & end_data puffer einplanen
         # Pfad zum Chromedriver
-        PATH = "C:\Program Files (x86)\chromedriver_94_0_4606_61.exe"
+        PATH = r"C:\Program Files (x86)\chromedriver_94_0_4606_61.exe"
 
         # Default Download-pfad für Dateien im Chrome Browser Object ändern
         options = webdriver.ChromeOptions()
@@ -42,7 +43,9 @@ class SmardGenerationData:
 
     def read_generation_data_from_file(self, data_filepath: str) -> pd.DataFrame:
         """Load generation data from CSV file and resample data to hourly UTC values"""
-        generation = pd.read_csv(f"../data/{data_filepath}", sep=";")
+        base_path = Path(__file__).parent
+        file_path = (base_path / f"../data/{data_filepath}").resolve()
+        generation = pd.read_csv(file_path, sep=";")
 
         # Aus den Datum und Uhrzeit Spalten die Strings nehmen und Datetime Index erstellen
         generation["Datum_UTC+1"] = generation[["Datum", "Uhrzeit"]].agg(" ".join, axis=1)
@@ -63,19 +66,12 @@ class SmardGenerationData:
 
     def save_generation_data_as_pickle(self, generation_dataframe: pd.DataFrame) -> None:
         """Export des Dataframes als Pickle"""
-        pd.to_pickle(generation_dataframe, f"../data/history_erzeugung_{self.regelzone}_{self.start_date}_{self.end_date}.pkl")
+        pd.to_pickle(generation_dataframe, f"../data/01_Base_Data/history_erzeugung_{self.regelzone}_{self.start_date}_{self.end_date}.pkl")
 
     @staticmethod
     def time_to_unix():
         pass
 
-# @dataclass
-# class HistoryGeneration(GenerationData):
-#     """Create Electricity Generation History class from BaseClass WeatherData"""
-#
-# @dataclass
-# class ForecastGeneration(GenerationData):
-#     """Create Electricity Generation Forecast class from BaseClass WeatherData"""
 
 if __name__ == "__main__":
     generation_bw = SmardGenerationData(start_date="28Sep2020",

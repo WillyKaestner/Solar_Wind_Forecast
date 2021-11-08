@@ -12,7 +12,7 @@ def main():
     history_wetterdaten_Mannheim = pd.read_pickle("../data/01_Base_Data/history_weather_mannheim_28Sep2020_19Sep_2020.pkl")
     history_wetterdaten_Ravensburg = pd.read_pickle("../data/01_Base_Data/history_weather_ravensburg_28Sep2020_19Sep_2020.pkl")
 
-    history_erzeugung_bw = pd.read_pickle("../data/01_Base_Data/history_erzeugung_bw_28Sep2020_19Sep_2020.pkl")
+    history_erzeugung_bw = pd.read_pickle("../data/01_Base_Data/history_erzeugung_bw_28Sep2020_19Sep_2021.pkl")
 
     # Datetime Index der Erzeugungsdaten in Spalte verschieben
     history_erzeugung_bw.reset_index(inplace=True)

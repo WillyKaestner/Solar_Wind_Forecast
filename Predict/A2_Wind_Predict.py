@@ -1,5 +1,5 @@
 #%%
-from ML_Model_Data.Weather_Data_Call import ForecastWeather
+from Weather_And_Generation.Weather_Data_Call import ForecastWeather
 from Predict.constants import TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT, CITY_LIST, CITIES_PREFIX
 
 import pandas as pd

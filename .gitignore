@@ -22,3 +22,4 @@
 /data/02_Forecast_Validation_Data/Realisierte_Erzeugung_202110050000_202110052359.csv
 /data/solar_model.joblib
 /data/wind_model.joblib
+/data/01_Base_Data/history_erzeugung_bw_28Sep2020_19Sep2021.pkl

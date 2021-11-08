@@ -1,5 +1,4 @@
-"""
-Predict PV and Wind Generation for the next 48 hours in Baden-Württemberg based on the weather forecast
+"""Predict PV and Wind Generation for the next 48 hours in Baden-Württemberg based on the weather forecast
 from Stuttgart, Freiburg, Mannheim and Ravensburg
 """
 
