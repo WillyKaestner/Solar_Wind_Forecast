@@ -23,3 +23,9 @@
 /data/solar_model.joblib
 /data/wind_model.joblib
 /data/01_Base_Data/history_erzeugung_bw_28Sep2020_19Sep2021.pkl
+/data/02_Forecast_Validation_Data/Realisierte_Erzeugung_202109280000_202109282359.csv
+/data/02_Forecast_Validation_Data/Realisierte_Erzeugung_248705300100_248705310059.csv
+/img/Solarvorhersage_12_10_17h.png
+/img/Solarvorhersage_29_10_14h.png
+/img/Windvorhersage_12_10_17h.png
+/img/Windvorhersage_29_10_14h.png

@@ -12,9 +12,11 @@ COL_LIST = ["date_utc",
 
 # Weather_history.py
 START_DATE_WEATHER_HISTORY = 1601251200  # Monday, 28. September 2020 00:00:00 UTC
-START_DATE_WEATHER_HISTORY_TEST = 1606784400  # Tue Dec 01 2020 00:00:00 UTC
+START_DATE_WEATHER_HISTORY_TEST = 1625443200  # Mon Jul 05 2021 00:00:00 GMT+0000
 STUTTGART = "Stuttgart,DE"
 FREIBURG = "Freiburg,DE"
 MANNHEIM = "Mannheim,DE"
 RAVENSBURG = "Ravensburg,DE"
 
+# Smard.de
+REGELZONEN = ["DE", "50Hertz", "Amperion", "TenneT", "TransnetBW"]

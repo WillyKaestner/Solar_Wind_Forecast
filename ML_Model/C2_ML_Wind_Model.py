@@ -21,7 +21,7 @@ def wind_model():
     X_wind_full = pd.read_pickle("../data/train_wind.pkl")
 
     # Delete the detailed weather description columns since we have to many different unique object values which will throw an error we have
-    # description values in our validation or test datasets which didn't occur in our training dataset.
+    # description values in our validation or tests datasets which didn't occur in our training dataset.
     X_wind_full.drop(columns=["STG_weather.description", "FRB_weather.description", "MAN_weather.description", "RAV_weather.description"],
                      inplace=True)
 

@@ -51,8 +51,8 @@ driver.quit()
 # print(driver.title)
 # # Find search box
 # search = driver.find_element_by_name("s")
-# # type in test in search field
-# search.send_keys("test")
+# # type in tests in search field
+# search.send_keys("tests")
 # # press Enter key
 # search.send_keys(Keys.RETURN)
 #

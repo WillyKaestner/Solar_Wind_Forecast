@@ -1,24 +1,26 @@
 """
-Electricity generation data classes and functions to load and prepare weather data for further use
+Electricity generation data classes and functions to load and prepare electricity data for further use
 """
+
+from Weather_And_Generation.constants import REGELZONEN
 
 import pandas as pd
 from dataclasses import dataclass
 from selenium import webdriver
 import time
 from pathlib import Path
+from datetime import datetime
 
 @dataclass
 class SmardGenerationData:
     """Overall electricity generation class for generation data from smard.de """
     start_date: str
     end_date: str
-    regelzone: str  # ToDo: Dict oder Liste einführen damit man keine Schreibfehler machen kann
+    regelzone: str
 
     def load_generation_data_from_smard_and_save_as_csv(self):
-        # ToDO: Nicht vergessen, dass die Erzeugungsdaten auf smard in UTC+1 zu finden sind -> deshalb zu start_date & end_data puffer einplanen
         # Pfad zum Chromedriver
-        PATH = r"C:\Program Files (x86)\chromedriver_94_0_4606_61.exe"
+        PATH = r"C:\Program Files (x86)\chromedriver_96_0_4664_45.exe"
 
         # Default Download-pfad für Dateien im Chrome Browser Object ändern
         options = webdriver.ChromeOptions()
@@ -29,8 +31,8 @@ class SmardGenerationData:
         # Webdriver starten mit definierten optionen
         driver = webdriver.Chrome(executable_path=PATH, options=options)
 
-        unix_start = str(self.time_to_unix(self.start_date)) + "LetzteZiffer4Mal"  # ToDo: List comprehension verwenden
-        unix_end = str(self.time_to_unix(self.start_date)) + "LetzteZiffer4Mal"  # ToDo: List comprehension verwenden
+        unix_start = str(self.adjust_date(self.start_date))
+        unix_end = str(self.adjust_date(self.end_date))
         smard = f"https://www.smard.de/home/downloadcenter/download-marktdaten#!?downloadAttributes=%7B%22selectedCategory%22:1,%22selectedSubCategory%22:1," \
                 f"%22selectedRegion%22:%22{self.regelzone}%22,%22from%22:{unix_start},%22to%22:{unix_end},%22selectedFileType%22:%22CSV%22%7D"
 
@@ -69,11 +71,28 @@ class SmardGenerationData:
         pd.to_pickle(generation_dataframe, f"../data/01_Base_Data/history_erzeugung_{self.regelzone}_{self.start_date}_{self.end_date}.pkl")
 
     @staticmethod
-    def time_to_unix():
-        pass
+    def adjust_date(date_str) -> int:
+        # Convert UTC+1 Date to Unix timestamp
+        date_utc1 = datetime.strptime(date_str, "%d%b%Y")
+        epoch = datetime(1970, 1, 1)
+        date_unix = int((date_utc1 - epoch).total_seconds()) + 3600
+
+        # Add last four digits to the Unix Value for Smard Website
+        date_unix_str = str(date_unix)
+        date_unix_str = date_unix_str + date_unix_str[-1] * 3
+
+        return date_unix_str
 
 
 if __name__ == "__main__":
-    generation_bw = SmardGenerationData(start_date="28Sep2020",
-                                        end_date="19Sep2021",
-                                        regelzone="bw").read_generation_data_from_file("01_Base_Data/Realisierte_Erzeugung_202009270000_202109202359.csv")
+    # generation_bw = SmardGenerationData(start_date="28Sep2020",
+    #                                     end_date="19Sep2021",
+    #                                     regelzone=REGELZONEN[1]).read_generation_data_from_file("01_Base_Data/Realisierte_Erzeugung_202009270000_202109202359.csv")
+
+    generation_bw = SmardGenerationData(start_date="28Sep2021",
+                                        end_date="30Sep2021",
+                                        regelzone=REGELZONEN[1])
+
+    generation_bw.load_generation_data_from_smard_and_save_as_csv()
+
+    # erzeugung_bw = generation_bw.read_generation_data_from_file("02_Forecast_Validation_Data/Realisierte_Erzeugung_202109280000_202109282359.csv")

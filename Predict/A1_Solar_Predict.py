@@ -33,7 +33,7 @@ def solar_predict():
     weather_forecast["month"] = date_range_df_UTC_plus_1["month"]
     weather_forecast["hour"] = date_range_df_UTC_plus_1["hour"]
 
-    # Wetter Dataframe mit Werten aus allen Städen für das ML Model zusammenführen
+    # Wetter Dataframe mit Werten aus allen Städten für das ML Model zusammenführen
     for city in CITY_LIST:
         # weather_forecast_temp = get_weather_forecast(city, TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT)
         weather_forecast_temp = ForecastWeather(city, COL_LIST_WEATHER_PREDICT, TIME_STEPS_PREDICT).get_weather_data_for_ML_model()

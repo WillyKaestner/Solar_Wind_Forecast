@@ -21,7 +21,7 @@ def solar_model():
     X_solar_full = pd.read_pickle("../data/train_solar.pkl")
 
     # Delete the detailed weather description columns since we have to many different unique object values which will throw an error we have
-    # description values in our validation or test datasets which didn't occur in our training dataset.
+    # description values in our validation or tests datasets which didn't occur in our training dataset.
     X_solar_full.drop(columns=["STG_weather.description", "FRB_weather.description", "MAN_weather.description", "RAV_weather.description"],
                       inplace=True)
 
@@ -43,7 +43,7 @@ def solar_model():
     # the four different weather.main columns
     X_train, X_valid, y_train, y_valid = train_test_split(X_solar_full, y_solar, train_size=0.8, test_size=0.2, random_state=1)
 
-    # Select categorical columns with relatively low cardinality (convenient but arbitrary)
+    # Select categorical columns
     categorical_cols = [cname for cname in X_train.columns if
                         X_train[cname].dtype == "object"]
 
@@ -126,7 +126,7 @@ def solar_model():
     Solar_Vergleich["Diff"] = Solar_Vergleich["Base_PV[MWh]"] - Solar_Vergleich["Predict_PV[MWh]"]
 
     # Export model
-    dump(clf, '../data/solar_model.joblib')
+    # dump(clf, '../data/solar_model.joblib')
 
 if __name__ == "__main__":
     solar_model()

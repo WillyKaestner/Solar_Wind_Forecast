@@ -5,3 +5,4 @@ scikit-learn~=1.0
 joblib~=1.0.1
 matplotlib~=3.4.3
 seaborn~=0.11.2
+selenium~=3.141.0

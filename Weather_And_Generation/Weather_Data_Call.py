@@ -61,7 +61,11 @@ class HistoryWeather(WeatherData):
     def api_call_weather_data(self) -> pd.DataFrame:
         """Historische Wetterdaten per API beziehen. Stündliche Werte."""
         url = f"https://history.openweathermap.org/data/2.5/history/city?q={self.city}&type=hour&start={self.start}&cnt={self.timesteps}&appid={self.API_KEY_OPENWEATHERMAP}"
+        # url = f"https://histor.openweathermap.org/data/2.5/history/city?q={self.city}&type=hour&start={self.start}&cnt={self.timesteps}&appid={self.API_KEY_OPENWEATHERMAP}"
         weather_data = requests.get(url).json()
+        if isinstance(weather_data, dict):
+            raise Exception(f"Received error code from API call:{weather_data}")
+
         # JSON Datei ausfächern und als Dataframe speichern
         df = pd.json_normalize(data=weather_data,
                                record_path=["list"],
@@ -82,6 +86,8 @@ class ForecastWeather(WeatherData):
         """Vorhersage der Wetterdaten per API beziehen. Stündliche Werte."""
         url = f"https://pro.openweathermap.org/data/2.5/forecast/hourly?q={self.city}&appid={self.API_KEY_OPENWEATHERMAP}&cnt={self.timesteps}"
         weather_data = requests.get(url).json()
+        if isinstance(weather_data, dict):
+            raise Exception(f"Received error code from API call:{weather_data}")
         # JSON Datei ausfächern und als Dataframe speichern
         df = pd.json_normalize(data=weather_data,
                                record_path=["list"],
@@ -100,18 +106,19 @@ def main():
     from Predict.constants import TIME_STEPS_PREDICT, COL_LIST_WEATHER_PREDICT, CITY_LIST
     from Weather_And_Generation.constants import START_DATE_WEATHER_HISTORY_TEST
 
-    weather_forecast_data_stuttgart = ForecastWeather(city=CITY_LIST[0],
-                                                      df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],
-                                                      timesteps=TIME_STEPS_PREDICT).get_weather_data_for_ML_model()
-
-    weather_forecast_data_freiburg = ForecastWeather(city=CITY_LIST[1],
-                                                     df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],
-                                                     timesteps=TIME_STEPS_PREDICT).get_weather_data_for_ML_model()
+    # weather_forecast_data_stuttgart = ForecastWeather(city=CITY_LIST[0],
+    #                                                   df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],
+    #                                                   timesteps=TIME_STEPS_PREDICT).get_weather_data_for_ML_model()
+    #
+    # weather_forecast_data_freiburg = ForecastWeather(city=CITY_LIST[1],
+    #                                                  df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],
+    #                                                  timesteps=TIME_STEPS_PREDICT).get_weather_data_for_ML_model()
 
     weather_history_data_stuttgart = HistoryWeather(city=CITY_LIST[0],
                                                     df_columns=COL_LIST_WEATHER_PREDICT + ["date_utc"],
-                                                    start=START_DATE_WEATHER_HISTORY_TEST,
-                                                    timesteps=10).get_weather_data_for_ML_model()
+                                                    start=1578855419,
+                                                    timesteps=168).get_weather_data_for_ML_model()
+
     return weather_forecast_data_stuttgart, weather_forecast_data_freiburg, weather_history_data_stuttgart
 
 
